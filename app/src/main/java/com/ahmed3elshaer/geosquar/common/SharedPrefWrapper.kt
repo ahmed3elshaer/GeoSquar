@@ -39,4 +39,7 @@ class SharedPrefWrapper(private val sharedPreferences: SharedPreferences) {
     fun clear() {
         sharedPreferences.edit().clear().apply()
     }
+    companion object{
+        const val LOCATION_KEY ="locationKey"
+    }
 }
