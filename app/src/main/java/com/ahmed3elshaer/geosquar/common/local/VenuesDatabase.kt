@@ -1,4 +1,4 @@
-package com.ahmed3elshaer.geosquar.common.room
+package com.ahmed3elshaer.geosquar.common.local
 
 import android.content.Context
 import androidx.room.Database

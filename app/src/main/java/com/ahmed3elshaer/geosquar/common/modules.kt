@@ -1,8 +1,7 @@
 package com.ahmed3elshaer.geosquar.common
 
 import android.content.Context
-import com.ahmed3elshaer.geosquar.common.glide.FourSquareGlideAppModule
-import com.ahmed3elshaer.geosquar.common.room.VenuesDatabase
+import com.ahmed3elshaer.geosquar.common.local.VenuesDatabase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

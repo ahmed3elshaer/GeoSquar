@@ -1,8 +1,7 @@
-package com.ahmed3elshaer.geosquar.common.room
+package com.ahmed3elshaer.geosquar.common.local
 
 import androidx.room.*
 import com.ahmed3elshaer.geosquar.common.models.Venue
-import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 

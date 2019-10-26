@@ -1,4 +1,4 @@
-package com.ahmed3elshaer.geosquar.common.glide
+package com.ahmed3elshaer.geosquar.common.loader
 
 import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.models.Venue

@@ -1,4 +1,4 @@
-package com.ahmed3elshaer.geosquar.common.room
+package com.ahmed3elshaer.geosquar.common.local
 
 import androidx.room.TypeConverter
 import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
