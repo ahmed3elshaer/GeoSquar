@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/25/19 11:46 PM
+ *
+ */
+
 package com.ahmed3elshaer.geosquar.common
 
 import android.content.SharedPreferences
@@ -39,7 +47,11 @@ class SharedPrefWrapper(private val sharedPreferences: SharedPreferences) {
     fun clear() {
         sharedPreferences.edit().clear().apply()
     }
-    companion object{
-        const val LOCATION_KEY ="locationKey"
+
+    companion object {
+        const val LOCATION_KEY = "locationKey"
+        const val MODE = "geoSquareMode"
+        const val REAL_TIME = "realtime"
+        const val SINGLE = "single"
     }
 }
