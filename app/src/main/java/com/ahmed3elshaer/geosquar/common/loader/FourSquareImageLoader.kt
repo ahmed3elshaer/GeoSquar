@@ -20,6 +20,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import io.reactivex.disposables.CompositeDisposable
 import java.io.InputStream
+import java.nio.charset.Charset
 import java.security.MessageDigest
 
 
@@ -56,7 +57,7 @@ class FourSquareImageLoader(private val repository: Repository) :
 
     class VenueKey(val venue: Venue) : Key {
         override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-            messageDigest.update(venue.id.toByte())
+            messageDigest.update(venue.id.toByteArray(Charset.defaultCharset()))
         }
 
         override fun equals(other: Any?): Boolean {
@@ -95,6 +96,7 @@ class FourSquareImageLoader(private val repository: Repository) :
                                     {
                                         callback.onDataReady(it)
                                     }, {
+                                it.printStackTrace()
                                 callback.onLoadFailed(Exception(it))
 
                             })
