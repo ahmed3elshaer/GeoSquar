@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/26/19 3:34 AM
+ *
+ */
+
 package com.ahmed3elshaer.geosquar.common.loader
 
 import android.content.Context
@@ -12,14 +20,14 @@ import org.koin.standalone.inject
 import java.io.InputStream
 
 @GlideModule
-class FourSquareGlideAppModule : AppGlideModule(),KoinComponent{
+class FourSquareGlideAppModule : AppGlideModule(), KoinComponent {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        val repository :Repository by inject()
+        val repository: Repository by inject()
         registry.prepend(
-            Venue::class.java,
-            InputStream::class.java,
-            FourSquareImageLoader.Factory(repository)
+                Venue::class.java,
+                InputStream::class.java,
+                FourSquareImageLoader.Factory(repository)
         )
     }
 }

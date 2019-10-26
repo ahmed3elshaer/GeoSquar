@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/26/19 3:34 AM
+ *
+ */
+
 package com.ahmed3elshaer.geosquar.common.loader
 
 import com.ahmed3elshaer.geosquar.common.Repository
@@ -16,9 +24,9 @@ import java.security.MessageDigest
 
 
 class FourSquareImageLoader(private val repository: Repository) :
-    ModelLoader<Venue, InputStream> {
+        ModelLoader<Venue, InputStream> {
     class Factory(private val repository: Repository) :
-        ModelLoaderFactory<Venue, InputStream> {
+            ModelLoaderFactory<Venue, InputStream> {
 
         override fun build(factory: MultiModelLoaderFactory): ModelLoader<Venue, InputStream> {
             return FourSquareImageLoader(repository)
@@ -30,14 +38,14 @@ class FourSquareImageLoader(private val repository: Repository) :
     }
 
     override fun buildLoadData(
-        model: Venue,
-        width: Int,
-        height: Int,
-        options: Options
+            model: Venue,
+            width: Int,
+            height: Int,
+            options: Options
     ): ModelLoader.LoadData<InputStream> {
         return ModelLoader.LoadData(
-            VenueKey(venue = model),
-            FourSquareImageFetcher(venue = model)
+                VenueKey(venue = model),
+                FourSquareImageFetcher(venue = model)
         )
     }
 
@@ -66,30 +74,30 @@ class FourSquareImageLoader(private val repository: Repository) :
     }
 
     inner class FourSquareImageFetcher(private val venue: Venue) :
-        DataFetcher<InputStream> {
+            DataFetcher<InputStream> {
         private val disposable = CompositeDisposable()
         override fun loadData(
-            priority: Priority,
-            callback: DataFetcher.DataCallback<in InputStream>
+                priority: Priority,
+                callback: DataFetcher.DataCallback<in InputStream>
         ) {
             disposable.add(
-                repository.getVenueImages(venue.id)
-                    .flatMap {
-                        it.data.photos.items.first().let {
-                            (it.prefix + "${it.width}x${it.height}" + it.suffix).let { url ->
-                                repository.getPhotoStream(url)
+                    repository.getVenueImages(venue.id)
+                            .flatMap {
+                                it.data.photos.items.first().let {
+                                    (it.prefix + "${it.width}x${it.height}" + it.suffix).let { url ->
+                                        repository.getPhotoStream(url)
+                                    }
+
+                                }
                             }
+                            .map { it.byteStream() }
+                            .subscribe(
+                                    {
+                                        callback.onDataReady(it)
+                                    }, {
+                                callback.onLoadFailed(Exception(it))
 
-                        }
-                    }
-                    .map { it.byteStream() }
-                    .subscribe(
-                        {
-                            callback.onDataReady(it)
-                        }, {
-                            callback.onLoadFailed(Exception(it))
-
-                        })
+                            })
             )
 
         }

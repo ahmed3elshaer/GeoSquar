@@ -1,4 +1,12 @@
-package com.ahmed3elshaer.geosquar.home
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/26/19 3:37 AM
+ *
+ */
+
+package com.ahmed3elshaer.geosquar.home.usecases
 
 import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.baseusecase.BaseVenueUseCase

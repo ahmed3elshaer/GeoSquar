@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/25/19 9:23 PM
+ *
+ */
+
 package com.ahmed3elshaer.geosquar.common.models
 
 
