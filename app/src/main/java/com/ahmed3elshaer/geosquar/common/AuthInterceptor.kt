@@ -10,15 +10,23 @@ package com.ahmed3elshaer.geosquar.common
 
 import okhttp3.Interceptor
 import okhttp3.Response
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class AuthInterceptor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
-        return chain.proceed(originalRequest.newBuilder().apply {
-        url(originalRequest.url.toString()+"&client_id=VZC2GFB3EJ35BGUXAJRLU12RGP2BFLREFOYNAQFIOT2WFTJI&client_secret=0LPQQUCUA1YZ0IPUBKNJX1DEQDGBMUXNNGPZWDIHKE0HLSPF")
-        }.build())
+        var request = chain.request()
+        val formatter = SimpleDateFormat("YYYYMMDD", Locale.getDefault())
 
 
+        val url = request.url.newBuilder()
+                .addQueryParameter("client_id", "VZC2GFB3EJ35BGUXAJRLU12RGP2BFLREFOYNAQFIOT2WFTJI")
+                .addQueryParameter("client_secret", "0LPQQUCUA1YZ0IPUBKNJX1DEQDGBMUXNNGPZWDIHKE0HLSPF")
+                .addQueryParameter("v", formatter.format(Date()))
+                .build()
+        request = request.newBuilder().url(url).build()
+        return chain.proceed(request)
     }
 
 }
