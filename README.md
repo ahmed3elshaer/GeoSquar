@@ -17,9 +17,7 @@ User should be able to switch between the two modes, default mode is
 
 ## Screenshot
 <img src="https://github.com/Ahmed3Elshaer/MoviesDecade/blob/master/art/1.png"></a>
-<img src="https://github.com/Ahmed3Elshaer/MoviesDecade/blob/master/art/2.png"></a>
-<img src="https://github.com/Ahmed3Elshaer/MoviesDecade/blob/master/art/3.png"></a>
-<img src="https://github.com/Ahmed3Elshaer/MoviesDecade/blob/master/art/4.png"></a>
+
 
 ## Specifications
 - Caching for showing the last places offline.
@@ -57,7 +55,9 @@ User should be able to switch between the two modes, default mode is
 - Just clone the app and import to Android Studio.
 ``https://github.com/Ahmed3Elshaer/GeoSquar.git``
 
-## Usage
+## Known Issues 
+ - Still working on adding Unit tests to the app
+ - Sometimes images won't load as the quota on FourSquare Api is very limited.
 
 
 ## Implementation
@@ -74,6 +74,7 @@ as an application architecture adopted with usage of UseCases with these design 
 cleaner and more readable and handy when creating dependecies.
 * Using Retrofit library to handle the APIs stuff.
 * Using Room for caching movies
+* [Creating Custom ImagesLoader](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/loader) with Glide to handle getting the Venues Photos from FourSquare Api and the extract a url and then load it into ImageView with no pain of writting logic inside the RecyclerView Adapter 
 * Using RxJava heavily to create a Reactive and flowless experince
 * Creating custom [Location Api](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/location) to handle the project use cases and integrate easily the the features
 * Separation of concerns : The most important principle used in this project to avoid many lifecycle-related problems.
@@ -161,7 +162,7 @@ We use the Architecture Components library to instantiate our ViewModel in order
 ## License
 MIT License
 ```
-Copyright (c) [2019] [Ahmed Elshaer]
+Copyright (c) [2019] Ahmed Elshaer
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
