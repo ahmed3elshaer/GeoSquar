@@ -8,4 +8,7 @@
 
 <resources>
     <string name="app_name">GeoSquar</string>
+    <string name="realtime">Realtime</string>
+    <string name="error">Something went wrong</string>
+    <string name="empty">No data found</string>
 </resources>
