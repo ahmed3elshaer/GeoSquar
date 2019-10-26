@@ -71,7 +71,7 @@ as an application architecture adopted with usage of UseCases with these design 
 * Using Koin for dependency injection that will make testing easier and our make code 
 cleaner and more readable and handy when creating dependecies.
 * Using Retrofit library to handle the APIs stuff.
-* Using Room for caching movies
+* Using Room for caching places
 * [Creating Custom ImagesLoader](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/loader) with Glide to handle getting the Venues Photos from FourSquare Api and the extract a url and then load it into ImageView with no pain of writting logic inside the RecyclerView Adapter 
 * Using RxJava heavily to create a Reactive and flowless experince
 * Creating custom [Location Api](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/location) to handle the project use cases and integrate easily the the features
