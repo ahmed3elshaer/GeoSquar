@@ -8,29 +8,45 @@
 
 package com.ahmed3elshaer.geosquar.home.usecases
 
+import android.annotation.SuppressLint
 import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.baseusecase.BaseVenueUseCase
 import com.ahmed3elshaer.geosquar.common.extensions.distanceTo
 import com.ahmed3elshaer.geosquar.common.extensions.toCoodinates
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
+import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 
 class ExploreVenuesRealtimeUseCase(private val repository: Repository) :
-    BaseVenueUseCase(repository) {
+        BaseVenueUseCase(repository) {
+    private var firstLocation: String? = null
+    private val realtimeVenuesBehaviour: BehaviorRelay<List<Venue>> = BehaviorRelay.create()
+    @SuppressLint("CheckResult")
     operator fun invoke(
-        venuesRequest: VenuesRequest
+            venuesRequest: VenuesRequest
     ): Observable<List<Venue>> {
-        repository.getCachedLocation().apply {
-            return if (isNotEmpty()) {
-                return if (toCoodinates().distanceTo(venuesRequest.coordinates.toCoodinates()) >= 500)
-                    getVenues(venuesRequest, true)
-                else
-                    Observable.empty()
-            } else
-                getVenues(venuesRequest, true)
+        if (firstLocation == null) {
+            firstLocation = venuesRequest.coordinates
+            getVenues(venuesRequest, true)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(realtimeVenuesBehaviour)
+        } else
+            repository.getCachedLocation().apply {
+                if (isNotEmpty()) {
+                    if (toCoodinates().distanceTo(venuesRequest.coordinates.toCoodinates()) >= 0.5)
+                        getVenues(venuesRequest, true)
+                                .subscribe(realtimeVenuesBehaviour)
 
-        }
+                } else
+                    getVenues(venuesRequest, true)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(realtimeVenuesBehaviour)
+
+            }
+        return realtimeVenuesBehaviour
 
     }
 
