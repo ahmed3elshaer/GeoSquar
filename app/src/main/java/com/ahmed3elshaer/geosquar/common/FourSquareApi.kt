@@ -20,10 +20,11 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface FourSquareApi {
-    @GET("/venues/explore")
-    fun exploreVenues(venuesRequest: VenuesRequest): Observable<VenuesResponse>
 
-    @GET("venues/{id}/photos")
+    @GET("/v2/venues/explore")
+    fun exploreVenues(@Query("ll")  coordinates: String, @Query("radius")  radius: Long = 1000): Observable<VenuesResponse>
+
+    @GET("/v2/venues/{id}/photos")
     fun getVenuePhotos(@Path("id") venueId: String): Observable<PhotosResponse>
 
     @GET
