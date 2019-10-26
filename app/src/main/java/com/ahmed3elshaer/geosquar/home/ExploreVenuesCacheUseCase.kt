@@ -7,13 +7,10 @@ import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
 import io.reactivex.Observable
 
-class ExploreVenuesSingleUseCase(private val repository: Repository) :
-    BaseVenueUseCase(repository) {
+class ExploreVenuesCacheUseCase(private val repository: Repository) {
     operator fun invoke(
-        venuesRequest: VenuesRequest
     ): Observable<List<Venue>> {
-        repository.cacheLocation(venuesRequest.coordinates)
-        return getVenues(venuesRequest, true)
+        return repository.getVenuesCache()
     }
 
 

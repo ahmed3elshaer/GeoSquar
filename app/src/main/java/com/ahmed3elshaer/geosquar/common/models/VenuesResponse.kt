@@ -1,9 +1,7 @@
 package com.ahmed3elshaer.geosquar.common.models
 
-
 import com.ahmed3elshaer.geosquar.common.models.base.BaseData
 import com.ahmed3elshaer.geosquar.common.models.base.BaseResponse
-import com.ahmed3elshaer.geosquar.common.models.base.Meta
 import com.squareup.moshi.Json
 
 
@@ -23,20 +21,7 @@ data class VenuesResponse(
     )
 
 
-    data class Venue(
-        @Json(name = "popularityByGeo")
-        val popularityByGeo: Double = 0.0,
-        @Json(name = "venuePage")
-        val venuePage: VenuePage,
-        @Json(name = "name")
-        val name: String = "",
-        @Json(name = "location")
-        val location: Location,
-        @Json(name = "id")
-        val id: String = "",
-        @Json(name = "categories")
-        val categories: List<Category>
-    )
+
 
 
     data class Sw(

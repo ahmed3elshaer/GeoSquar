@@ -45,6 +45,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
+    //room
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+
     //koin
     def koin_version = '1.0.2'
     // Koin for Android
@@ -75,6 +80,7 @@ dependencies {
 
     //location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.9.0'
 
 
     implementation 'com.android.support:multidex:1.0.3'

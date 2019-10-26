@@ -2,11 +2,13 @@ package com.ahmed3elshaer.geosquar.common
 
 import android.content.Context
 import com.ahmed3elshaer.geosquar.common.glide.FourSquareGlideAppModule
+import com.ahmed3elshaer.geosquar.common.room.VenuesDatabase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -20,15 +22,16 @@ val applicationModules = module {
     single { createOkHttpClient() }
     single { androidApplication().getSharedPreferences("GeoSquare", Context.MODE_PRIVATE) }
     single { SharedPrefWrapper(get()) }
+    single { VenuesDatabase.getInstance(androidContext()).moviesDao() }
     single<FourSquareApi> {
         createWebService(
             get(),
             get(),
-           "https://api.foursquare.com/v2/")
+            "https://api.foursquare.com/v2/"
+        )
 
     }
-    factory { Repository(get(), get()) }
-    factory { FourSquareGlideAppModule(get()) }
+    factory { Repository(get(), get(),get()) }
 }
 
 fun createOkHttpClient(): OkHttpClient {

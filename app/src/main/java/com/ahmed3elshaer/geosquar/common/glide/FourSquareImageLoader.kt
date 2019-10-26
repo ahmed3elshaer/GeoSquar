@@ -1,35 +1,26 @@
 package com.ahmed3elshaer.geosquar.common.glide
 
 import com.ahmed3elshaer.geosquar.common.Repository
-import com.ahmed3elshaer.geosquar.common.models.PhotosResponse
-import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
+import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.data.DataFetcher
-import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.ModelLoader
-import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import retrofit2.Call
-
-import java.io.InputStream
-import java.lang.Exception
-import java.nio.charset.Charset
-import java.security.MessageDigest
-import java.util.*
-import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.load.model.ModelLoaderFactory
+import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import io.reactivex.disposables.CompositeDisposable
+import java.io.InputStream
+import java.security.MessageDigest
 
 
 class FourSquareImageLoader(private val repository: Repository) :
-    ModelLoader<VenuesResponse.Venue, InputStream> {
+    ModelLoader<Venue, InputStream> {
     class Factory(private val repository: Repository) :
-        ModelLoaderFactory<VenuesResponse.Venue, InputStream> {
+        ModelLoaderFactory<Venue, InputStream> {
 
-        override fun build(factory: MultiModelLoaderFactory): ModelLoader<VenuesResponse.Venue, InputStream> {
+        override fun build(factory: MultiModelLoaderFactory): ModelLoader<Venue, InputStream> {
             return FourSquareImageLoader(repository)
         }
 
@@ -39,7 +30,7 @@ class FourSquareImageLoader(private val repository: Repository) :
     }
 
     override fun buildLoadData(
-        model: VenuesResponse.Venue,
+        model: Venue,
         width: Int,
         height: Int,
         options: Options
@@ -51,11 +42,11 @@ class FourSquareImageLoader(private val repository: Repository) :
     }
 
 
-    override fun handles(venue: VenuesResponse.Venue): Boolean {
+    override fun handles(venue: Venue): Boolean {
         return true
     }
 
-    class VenueKey(val venue: VenuesResponse.Venue) : Key {
+    class VenueKey(val venue: Venue) : Key {
         override fun updateDiskCacheKey(messageDigest: MessageDigest) {
             messageDigest.update(venue.id.toByte())
         }
@@ -64,7 +55,7 @@ class FourSquareImageLoader(private val repository: Repository) :
             if (this === other) return true
             if (other == null || javaClass != other::javaClass) return false
 
-            val key = other as VenuesResponse.Venue
+            val key = other as Venue
 
             return venue.id == key.id
         }
@@ -74,7 +65,7 @@ class FourSquareImageLoader(private val repository: Repository) :
         }
     }
 
-    inner class FourSquareImageFetcher(private val venue: VenuesResponse.Venue) :
+    inner class FourSquareImageFetcher(private val venue: Venue) :
         DataFetcher<InputStream> {
         private val disposable = CompositeDisposable()
         override fun loadData(
