@@ -42,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initVenuesList() {
+        adapter = VenuesAdapter()
+        recycler_venues.itemAnimator = DefaultItemAnimator()
+        recycler_venues.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
+        recycler_venues.adapter = adapter
+    }
     private fun render(event: Event<HomeViewState>) {
         event.getContentIfNotHandled()?.apply {
             renderLoading(isLoading)
