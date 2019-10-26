@@ -16,7 +16,7 @@ User should be able to switch between the two modes, default mode is
 “Realtime”. App should remember user choices for next launches.
 
 ## Screenshot
-<img src="https://github.com/Ahmed3Elshaer/MoviesDecade/blob/master/art/1.png"></a>
+<img src="https://github.com/Ahmed3Elshaer/GeoSquar/blob/master/art/1.png"></a>
 
 
 ## Specifications
@@ -24,9 +24,7 @@ User should be able to switch between the two modes, default mode is
 - portrait and landscape.
 - using MVVM
 - using RxJava
-- Realtime search and sorting speed.
-- descriptive git history.
-- Unit test.
+- Unit test(Under development).
 - Partly include comments.
 - Reactive code
 
@@ -36,11 +34,11 @@ User should be able to switch between the two modes, default mode is
  * [androidX libraries](https://developer.android.com/jetpack/androidx)
  * [Android LifeCycle](https://developer.android.com/topic/libraries/architecture)
  * [Glide](https://github.com/bumptech/glide)
- * [Room]
- * [Retrofit2]
+ * [Room](https://developer.android.com/jetpack/androidx/releases/room)
+ * [Retrofit2](https://github.com/square/retrofit)
  * [Koin](https://github.com/InsertKoinIO/koin)
  * [Moshi](https://github.com/square/moshi)
- * [LocationApi Wrapper,RxLocatation] Simple location wrapper developed myself and customized to be working specifically with the project 
+ * [LocationAPP Wrapper,RxLocatation](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/location) Simple location wrapper developed myself and customized to be working specifically with the project.
  * [RxJava](https://github.com/ReactiveX/RxJava)
  * [Turf](https://docs.mapbox.com/android/java/overview/turf/)
  * [RxKotlin](https://github.com/ReactiveX/RxKotlin)
