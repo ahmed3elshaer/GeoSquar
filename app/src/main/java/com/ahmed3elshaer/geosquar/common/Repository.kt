@@ -21,7 +21,7 @@ class Repository(
 
 ) {
 
-    fun exploreVenues(venuesRequest: VenuesRequest) = fourSquareApi.exploreVenues(venuesRequest)
+    fun exploreVenues(venuesRequest: VenuesRequest) = fourSquareApi.exploreVenues(venuesRequest.coordinates,venuesRequest.radius)
     fun getVenueImages(venueId: String) = fourSquareApi.getVenuePhotos(venueId)
     fun getPhotoStream(url: String) = fourSquareApi.getPhotoStream(url)
     fun cacheLocation(coordinates: String) = sharedPrefWrapper.saveString(LOCATION_KEY, coordinates)

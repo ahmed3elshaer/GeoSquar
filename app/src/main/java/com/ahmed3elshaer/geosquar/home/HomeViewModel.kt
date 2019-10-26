@@ -22,9 +22,12 @@ class HomeViewModel(
         private val exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,
         private val exploreVenuesCacheUseCase: ExploreVenuesCacheUseCase
 ) : BaseViewModel<HomeViewState>() {
+    override val _viewState = MutableLiveData<Event<HomeViewState>>()
+
     init {
         post(HomeViewState())
     }
+
 
     fun checkForCachedVenues() {
         add {
@@ -74,5 +77,4 @@ class HomeViewModel(
         }
     }
 
-    override val _viewState = MutableLiveData<Event<HomeViewState>>()
 }
