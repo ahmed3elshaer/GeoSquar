@@ -34,6 +34,14 @@ class MainActivity : AppCompatActivity() {
         getLocation()
     }
 
+    private fun initModeChange() {
+        switch_mode.isChecked = isRealtime()
+        switch_mode.setOnCheckedChangeListener { buttonView, isChecked ->
+            changeMode(isChecked)
+            getLocation()
+        }
+    }
+
     private fun render(event: Event<HomeViewState>) {
         event.getContentIfNotHandled()?.apply {
             renderLoading(isLoading)
