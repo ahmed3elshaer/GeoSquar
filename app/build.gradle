@@ -71,6 +71,7 @@ dependencies {
     //rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.okhttp3:okhttp:4.2.0'
