@@ -42,22 +42,6 @@ class MainActivity : AppCompatActivity() {
         initVenuesList()
         initModeChange()
     }
-
-    private fun initModeChange() {
-        switch_mode.isChecked = isRealtime()
-        switch_mode.setOnCheckedChangeListener { buttonView, isChecked ->
-            changeMode(isChecked)
-            getLocation()
-        }
-    }
-
-    private fun initVenuesList() {
-        adapter = VenuesAdapter()
-        recycler_venues.itemAnimator = DefaultItemAnimator()
-        recycler_venues.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
-        recycler_venues.adapter = adapter
-    }
-
     private fun render(event: Event<HomeViewState>) {
         event.getContentIfNotHandled()?.apply {
             renderLoading(isLoading)
@@ -76,6 +60,23 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+    private fun initModeChange() {
+        switch_mode.isChecked = isRealtime()
+        switch_mode.setOnCheckedChangeListener { buttonView, isChecked ->
+            changeMode(isChecked)
+            getLocation()
+        }
+    }
+
+    private fun initVenuesList() {
+        adapter = VenuesAdapter()
+        recycler_venues.itemAnimator = DefaultItemAnimator()
+        recycler_venues.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
+        recycler_venues.adapter = adapter
+    }
+
+
 
     private fun renderVenues(venues: List<Venue>) {
         Log.d("newList", venues.toString())
