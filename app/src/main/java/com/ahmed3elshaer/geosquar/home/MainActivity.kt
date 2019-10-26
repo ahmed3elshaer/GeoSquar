@@ -104,8 +104,11 @@ class MainActivity : AppCompatActivity() {
                                         renderError(error)
                                     })
             )
-        } else
+        } else{
+            showMessage("Requesting Offline cache")
             viewModel.checkForCachedVenues()
+        }
+
 
     }
 

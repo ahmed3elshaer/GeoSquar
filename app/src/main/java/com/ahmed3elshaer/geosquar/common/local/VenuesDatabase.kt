@@ -18,7 +18,7 @@ import com.ahmed3elshaer.geosquar.common.models.Venue
 @TypeConverters(VenuesConverter::class)
 @Database(
     entities = [Venue::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class VenuesDatabase : RoomDatabase() {
@@ -27,6 +27,7 @@ abstract class VenuesDatabase : RoomDatabase() {
     companion object {
         fun getInstance(context: Context): VenuesDatabase =
             Room.databaseBuilder(context, VenuesDatabase::class.java, "VenueDatabase")
+                .fallbackToDestructiveMigration()
                 .build()
 
     }

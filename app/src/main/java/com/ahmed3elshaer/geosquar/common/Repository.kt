@@ -21,14 +21,16 @@ class Repository(
 
 ) {
 
-    fun exploreVenues(venuesRequest: VenuesRequest) = fourSquareApi.exploreVenues(venuesRequest.coordinates,venuesRequest.radius)
+    fun exploreVenues(venuesRequest: VenuesRequest) =
+        fourSquareApi.exploreVenues(venuesRequest.coordinates, venuesRequest.radius)
+
     fun getVenueImages(venueId: String) = fourSquareApi.getVenuePhotos(venueId)
     fun getPhotoStream(url: String) = fourSquareApi.getPhotoStream(url)
     fun cacheLocation(coordinates: String) = sharedPrefWrapper.saveString(LOCATION_KEY, coordinates)
     fun getCachedLocation() = sharedPrefWrapper.getString(LOCATION_KEY)
     fun cacheVenues(venues: List<Venue>) {
         venuesDao.clearAll()
-        venuesDao.insertAll(venues)
+        venuesDao.insertAll(*venues.toTypedArray())
     }
 
     fun getVenuesCache(): Observable<List<Venue>> = venuesDao.allVenues()

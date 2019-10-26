@@ -11,7 +11,6 @@ package com.ahmed3elshaer.geosquar.common.local
 import androidx.room.*
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import io.reactivex.Observable
-import io.reactivex.Single
 
 @Dao
 @TypeConverters(VenuesConverter::class)
@@ -20,15 +19,11 @@ interface VenuesDao {
     fun insert(venue: Venue)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(venues: List<Venue>)
+    fun insertAll(vararg venues: Venue)
 
-    @Query("SELECT * FROM venues  WHERE id = :id")
-    fun venueById(id: Long): Single<Venue>
-
-
-    @Query("SELECT * FROM venues ORDER BY id ASC")
+    @Query("SELECT * FROM venues")
     fun allVenues(): Observable<List<Venue>>
 
-    @Query("DELETE FROM venues")
+    @Query("DELETE  FROM venues")
     fun clearAll()
 }

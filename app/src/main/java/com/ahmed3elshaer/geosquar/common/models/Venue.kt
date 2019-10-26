@@ -15,7 +15,6 @@ import com.squareup.moshi.Json
 
 @Entity(tableName = "venues")
 data class Venue(
-        @PrimaryKey(autoGenerate = true) val id_: Long=-1,
         @ColumnInfo(name = "name")
         @Json(name = "name")
         val name: String = "",
@@ -24,5 +23,5 @@ data class Venue(
         val location: VenuesResponse.Location,
         @ColumnInfo(name = "id")
         @Json(name = "id")
-        val id: String = ""
+        @PrimaryKey val id: String = ""
 )

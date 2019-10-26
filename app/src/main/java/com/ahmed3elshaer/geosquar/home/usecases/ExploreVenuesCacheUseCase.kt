@@ -14,6 +14,8 @@ import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 
 class ExploreVenuesCacheUseCase(private val repository: Repository) {
     operator fun invoke(
