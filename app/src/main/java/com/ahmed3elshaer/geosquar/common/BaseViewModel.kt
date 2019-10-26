@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Ahmed Elshaer on 10/26/19 4:17 AM
+ *  * Copyright (c) 2019 . All rights reserved.
+ *  * Last modified 10/24/19 8:53 PM
+ *
+ */
+
 package com.ahmed3elshaer.geosquar.common
 
 import androidx.annotation.CallSuper
@@ -15,9 +23,9 @@ abstract class BaseViewModel<T> : ViewModel() {
 
     val compositeDisposable = CompositeDisposable()
 
-    protected abstract val _viewState: MutableLiveData<T>
+    protected abstract val _viewState: MutableLiveData<Event<T>>
 
-    val viewState: LiveData<T> get() = _viewState
+    val viewState: LiveData<Event<T>> get() = _viewState
 
     @CallSuper
     override fun onCleared() {
@@ -32,13 +40,18 @@ abstract class BaseViewModel<T> : ViewModel() {
     fun <X> applySchedulers(): ObservableTransformer<X, X> {
         return ObservableTransformer { up ->
             up.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
         }
     }
 
-    fun post(state: T) {
-        _viewState.value = state
+    fun post(state: T?) {
+        state?.let {
+            _viewState.value = Event(state)
+        }
+
     }
+
+    fun previousValue() = _viewState.value?.peekContent()
 
 
 }
