@@ -22,5 +22,39 @@ class HomeViewModel(
         }
     }
 
+    fun exploreVenues(location: Location, realtime: Boolean) {
+        if (realtime)
+            exploreRealtime(location)
+        else
+            exploreSingle(location)
+
+
+    }
+
+    private fun exploreSingle(location: Location) {
+        add {
+            exploreVenuesSingleUseCase(VenuesRequest("${location.latitude},${location.longitude}"))
+                    .compose(applySchedulers())
+                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                    .subscribe({
+                        post(previousValue()?.copy(isLoading = false, venues = it))
+                    }, {
+                        post(previousValue()?.copy(isLoading = false, error = it))
+                    })
+        }
+    }
+
+    private fun exploreRealtime(location: Location) {
+        add {
+            exploreVenuesRealtimeUseCase(VenuesRequest("${location.latitude},${location.longitude}"))
+                    .compose(applySchedulers())
+                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                    .subscribe({
+                        post(previousValue()?.copy(isLoading = false, venues = it))
+                    }, {
+                        post(previousValue()?.copy(isLoading = false, error = it))
+                    })
+        }
+    }
     override val _viewState = MutableLiveData<Event<HomeViewState>>()
 }
