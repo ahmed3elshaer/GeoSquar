@@ -9,5 +9,18 @@ class HomeViewModel(
     private val exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,
     private val exploreVenuesCacheUseCase: ExploreVenuesCacheUseCase
 ) : BaseViewModel<Event<HomeViewState>>() {
+    fun checkForCachedVenues() {
+        add {
+            exploreVenuesCacheUseCase()
+                    .compose(applySchedulers())
+                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                    .subscribe({
+                        post(previousValue()?.copy(isLoading = false, venues = it))
+                    }, {
+                        post(previousValue()?.copy(isLoading = false, error = it))
+                    })
+        }
+    }
+
     override val _viewState = MutableLiveData<Event<HomeViewState>>()
 }
