@@ -18,6 +18,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ahmed3elshaer.geosquar.common.extensions.isInFlightMode
@@ -60,6 +61,7 @@ class LocationApi(
         task?.addOnSuccessListener { location: Location? ->
             if (location != null) {
                 callbacks.onSuccess(location)
+                Log.d("locationUpdate", location.toString())
                 if (isRealtime)
                     requestRealtime()
             } else {
@@ -77,6 +79,7 @@ class LocationApi(
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 callbacks.onSuccess(locationResult.lastLocation)
+                Log.d("locationUpdate", locationResult.lastLocation.toString())
                 if (!isRealtime)
                     fusedLocationClient?.removeLocationUpdates(locationCallback)
             }
@@ -132,7 +135,10 @@ class LocationApi(
         }
     }
 
-    fun stopLocationUpdates() = fusedLocationClient?.removeLocationUpdates(locationCallback)
+    fun stopLocationUpdates() = fusedLocationClient?.let {
+        if (locationCallback != null)
+            it.removeLocationUpdates(locationCallback)
+    }
 
     fun onRequestPermissionsResult(
             requestCode: Int,
@@ -176,7 +182,6 @@ class LocationApi(
             interval = 10000
             fastestInterval = 2000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            numUpdates = 1
         }
 
         // check current location settings
