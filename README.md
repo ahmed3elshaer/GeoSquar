@@ -16,7 +16,7 @@ User should be able to switch between the two modes, default mode is
 “Realtime”. App should remember user choices for next launches.
 
 ## Screenshot
-<img src="https://github.com/Ahmed3Elshaer/GeoSquar/blob/master/art/1.png"></a>
+<img src="https://github.com/Ahmed3Elshaer/GeoSquar/blob/master/art/1.png" width="200" height="400"></a>
 
 
 ## Specifications
@@ -38,7 +38,7 @@ User should be able to switch between the two modes, default mode is
  * [Retrofit2](https://github.com/square/retrofit)
  * [Koin](https://github.com/InsertKoinIO/koin)
  * [Moshi](https://github.com/square/moshi)
- * [LocationAPP Wrapper,RxLocatation](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/location) Simple location wrapper developed myself and customized to be working specifically with the project.
+ * [LocationAPI Wrapper,RxLocatation](https://github.com/Ahmed3Elshaer/GeoSquar/tree/master/app/src/main/java/com/ahmed3elshaer/geosquar/common/location) Simple location wrapper developed myself and customized to be working specifically with the project.
  * [RxJava](https://github.com/ReactiveX/RxJava)
  * [Turf](https://docs.mapbox.com/android/java/overview/turf/)
  * [RxKotlin](https://github.com/ReactiveX/RxKotlin)
