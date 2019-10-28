@@ -8,6 +8,7 @@
 
 package com.ahmed3elshaer.geosquar.common.extensions
 
+import android.location.Location
 import com.mapbox.geojson.Point
 import com.mapbox.turf.TurfMeasurement
 
@@ -17,3 +18,10 @@ fun String.toCoodinates(): Point {
 }
 
 fun Point.distanceTo(point: Point): Double = TurfMeasurement.distance(this, point)
+
+fun Any.newLocation(lat: Double, lng: Double): Location {
+    val targetLocation = Location("")//provider name is unnecessary
+    targetLocation.latitude = lat
+    targetLocation.longitude = lng
+    return targetLocation
+}
