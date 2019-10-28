@@ -50,9 +50,24 @@ User should be able to switch between the two modes, default mode is
 - min SDK 19
 
 ## Installation
+GeoSquar requires Android Studio version 3.6 or higher.
 
-- Just clone the app and import to Android Studio.
-``https://github.com/Ahmed3Elshaer/GeoSquar.git``
+GeoSquar uses [ktlint](https://github.com/pinterest/ktlint) to enforce Kotlin coding styles. Here's how to configure it for use with Android Studio (instructions adapted from the ktlint README):
+
+Close Android Studio if it's open
+
+Download ktlint using these installation instructions
+
+Inside the project root directory run:
+
+./ktlint --apply-to-idea-project --android
+
+Remove ktlint if desired:
+
+rm ktlint
+
+Start Android Studio
+
 
 ## Known Issues 
  - Sometimes images won't load as the quota on FourSquare Api is very limited.
@@ -160,7 +175,7 @@ We use the Architecture Components library to instantiate our ViewModel in order
 ## License
 MIT License
 ```
-Copyright (c) [2019] Ahmed Elshaer
+Copyright (c) 2019 Ahmed Elshaer
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
