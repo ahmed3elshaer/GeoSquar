@@ -8,13 +8,10 @@
 
 package com.ahmed3elshaer.geosquar.home
 
+
 import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import com.ahmed3elshaer.geosquar.LiveDataTestUtil
-import com.ahmed3elshaer.geosquar.common.Application
-import com.ahmed3elshaer.geosquar.common.Repository
-import com.ahmed3elshaer.geosquar.common.extensions.newLocation
+import com.ahmed3elshaer.geosquar.utils.LiveDataTestUtil
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
@@ -23,8 +20,8 @@ import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
 import io.reactivex.Observable
-import io.reactivex.subscribers.TestSubscriber
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,9 +34,6 @@ class HomeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
     @Mock
-    private lateinit var repository: Repository
-    @Mock
-    private lateinit var context: Application
     private lateinit var viewModel: HomeViewModel
     private lateinit var venuesList: List<Venue>
     @Mock
@@ -51,6 +45,7 @@ class HomeViewModelTest {
     private lateinit var venuesRequest: VenuesRequest
     @Mock
     private lateinit var location: Location
+    private val throwable = Throwable("test error")
 
     private val lat = 30.0456862
 
@@ -100,7 +95,6 @@ class HomeViewModelTest {
     @Test
     fun realtimeVenuesError() {
         setupLocation()
-        val throwable = Throwable("test error")
         `when`(exploreVenuesRealtimeUseCase.invoke(venuesRequest)).thenReturn(
             Observable.error(
                 throwable
@@ -130,7 +124,6 @@ class HomeViewModelTest {
 
     @Test
     fun singleVenuesError() {
-        val throwable = Throwable("test error")
         setupLocation()
         `when`(exploreVenuesSingleUseCase.invoke(venuesRequest)).thenReturn(
             Observable.error(
@@ -160,7 +153,6 @@ class HomeViewModelTest {
 
     @Test
     fun cachedVenuesError() {
-        val throwable = Throwable("test error")
         `when`(exploreVenuesCacheUseCase.invoke()).thenReturn(
             Observable.error(
                 throwable
