@@ -17,7 +17,7 @@ import com.squareup.moshi.Json
 data class Venue(
         @ColumnInfo(name = "name")
         @Json(name = "name")
-        val name: String = "",
+        var name: String = "",
         @ColumnInfo(name = "location")
         @Json(name = "location")
         val location: VenuesResponse.Location,
