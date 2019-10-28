@@ -9,17 +9,21 @@
 package com.ahmed3elshaer.geosquar.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed3elshaer.geosquar.R
 import com.ahmed3elshaer.geosquar.common.Event
-import com.ahmed3elshaer.geosquar.common.extensions.*
+import com.ahmed3elshaer.geosquar.common.extensions.changeMode
+import com.ahmed3elshaer.geosquar.common.extensions.hide
+import com.ahmed3elshaer.geosquar.common.extensions.isNetworkAvailable
+import com.ahmed3elshaer.geosquar.common.extensions.isRealtime
+import com.ahmed3elshaer.geosquar.common.extensions.show
 import com.ahmed3elshaer.geosquar.common.location.RxLocationExt
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.google.android.material.snackbar.Snackbar
@@ -55,15 +59,13 @@ class MainActivity : AppCompatActivity() {
                     renderEmptyState()
                 else
                     renderVenues(it)
-
             }
-
         }
     }
 
     private fun initModeChange() {
         switch_mode.isChecked = isRealtime()
-        switch_mode.setOnCheckedChangeListener { buttonView, isChecked ->
+        switch_mode.setOnCheckedChangeListener { _, isChecked ->
             changeMode(isChecked)
             getLocation()
         }
@@ -75,8 +77,6 @@ class MainActivity : AppCompatActivity() {
         recycler_venues.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recycler_venues.adapter = adapter
     }
-
-
 
     private fun renderVenues(venues: List<Venue>) {
         Log.d("newList", venues.toString())
@@ -98,19 +98,15 @@ class MainActivity : AppCompatActivity() {
                     rxLocation.locations(this, isRealtime())
                             .subscribe({ location ->
                                 viewModel.exploreVenues(location, isRealtime())
-
-
                             },
                                     { error: Throwable ->
                                         renderError(error)
                                     })
             )
-        } else{
+        } else {
             showMessage("Requesting Offline cache")
             viewModel.checkForCachedVenues()
         }
-
-
     }
 
     private fun renderError(error: Throwable) {
@@ -127,7 +123,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                     .show()
         }
-
     }
 
     private fun renderLoading(shouldLoad: Boolean) {
@@ -140,13 +135,12 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         rxLocation.onActivityResult(requestCode, resultCode, data)
-
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         rxLocation.onRequestPermissionsResult(requestCode, permissions, grantResults)

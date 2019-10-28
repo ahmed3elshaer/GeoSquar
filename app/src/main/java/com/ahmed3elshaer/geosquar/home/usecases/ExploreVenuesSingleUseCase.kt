@@ -13,7 +13,6 @@ import com.ahmed3elshaer.geosquar.common.baseusecase.BaseVenueUseCase
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
-import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import io.reactivex.Observable
 
 class ExploreVenuesSingleUseCase(
@@ -28,6 +27,4 @@ class ExploreVenuesSingleUseCase(
         repository.cacheLocation(venuesRequest.coordinates)
         return getVenues(venuesRequest, true)
     }
-
-
 }

@@ -29,24 +29,21 @@ class RxLocationExt() {
                     override fun onFailed(locationFailedEnum: LocationApi.LocationFailedEnum) {
                         locationBehaviorSubject.onError(Throwable(locationFailedEnum.name))
                     }
-
                 })
         return locationBehaviorSubject
     }
-
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         locationApi?.onActivityResult(requestCode, resultCode, data)
     }
 
     fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         locationApi?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     fun stopLocationUpdates() = locationApi?.stopLocationUpdates()
-
 }

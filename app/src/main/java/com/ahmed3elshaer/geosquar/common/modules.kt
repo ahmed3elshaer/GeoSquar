@@ -10,7 +10,6 @@ package com.ahmed3elshaer.geosquar.common
 
 import android.content.Context
 import com.ahmed3elshaer.geosquar.common.local.VenuesDatabase
-import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import com.ahmed3elshaer.geosquar.home.HomeViewModel
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
@@ -18,6 +17,7 @@ import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
@@ -27,7 +27,6 @@ import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 
 val applicationModules = module {
 
@@ -43,14 +42,13 @@ val applicationModules = module {
             get(),
             "https://api.foursquare.com/v2/"
         )
-
     }
     single { SchedulerProvider() }
     factory { Repository(get(), get(), get()) }
 
     factory { ExploreVenuesCacheUseCase(get()) }
-    factory { ExploreVenuesRealtimeUseCase(get(),get()) }
-    factory { ExploreVenuesSingleUseCase(get(),get()) }
+    factory { ExploreVenuesRealtimeUseCase(get(), get()) }
+    factory { ExploreVenuesSingleUseCase(get(), get()) }
 
     viewModel { HomeViewModel(get(), get(), get(), get()) }
 }
@@ -66,7 +64,6 @@ fun createOkHttpClient(): OkHttpClient {
         .build()
 }
 
-
 inline fun <reified T> createWebService(
     okHttpClient: OkHttpClient,
     moshi: Moshi,
@@ -80,5 +77,3 @@ inline fun <reified T> createWebService(
         .build()
     return retrofit.create(T::class.java)
 }
-
-

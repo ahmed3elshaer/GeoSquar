@@ -19,6 +19,5 @@ class Application : MultiDexApplication() {
             listOf(applicationModules),
             loadPropertiesFromFile = true
         )
-
     }
 }

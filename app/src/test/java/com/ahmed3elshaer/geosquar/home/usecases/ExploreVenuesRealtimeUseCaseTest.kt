@@ -62,7 +62,6 @@ class ExploreVenuesRealtimeUseCaseTest {
                 suggestedBounds = VenuesResponse.SuggestedBounds()
             )
         )
-
     }
 
     @Test
@@ -79,7 +78,6 @@ class ExploreVenuesRealtimeUseCaseTest {
                     it.size == 3
                 }
             }.dispose()
-
     }
 
     @Test
@@ -89,7 +87,7 @@ class ExploreVenuesRealtimeUseCaseTest {
                 venuesResponse
             )
         )
-        //first emit to make sure it's not the first call (make location variable !=null)
+        // first emit to make sure it's not the first call (make location variable !=null)
         exploreVenuesRealtimeUseCase(venuesRequest)
             .test().apply {
                 assertNoErrors()
@@ -98,13 +96,13 @@ class ExploreVenuesRealtimeUseCaseTest {
                 }
             }.dispose()
         `when`(repository.getCachedLocation()).thenReturn("$lat,$lng")
-        //first trial with the same location should not return data (count 1)
+        // first trial with the same location should not return data (count 1)
         exploreVenuesRealtimeUseCase(venuesRequest)
             .test().apply {
                 assertNoErrors()
                 assertValueCount(1)
             }.dispose()
-        //second trial with the same location should not return data (count 1)
+        // second trial with the same location should not return data (count 1)
         exploreVenuesRealtimeUseCase(venuesRequest)
             .test().apply {
                 assertNoErrors()
@@ -119,7 +117,7 @@ class ExploreVenuesRealtimeUseCaseTest {
                 venuesResponse
             )
         )
-        //first emit to make sure it's not the first call (make location variable !=null)
+        // first emit to make sure it's not the first call (make location variable !=null)
         // and the first venue name is empty
         exploreVenuesRealtimeUseCase(venuesRequest)
             .test().apply {
@@ -142,15 +140,11 @@ class ExploreVenuesRealtimeUseCaseTest {
                 }
             )
         )
-        //trying with the same location should  return data with first venue name == second
+        // trying with the same location should  return data with first venue name == second
         exploreVenuesRealtimeUseCase(venuesRequest)
             .test().apply {
                 assertNoErrors()
                 assertValue { it.first().name == "second" }
             }.dispose()
-
     }
-
-
 }
-

@@ -23,17 +23,24 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ahmed3elshaer.geosquar.common.extensions.isInFlightMode
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationAvailability
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.tasks.Task
 import java.lang.ref.WeakReference
 import java.util.ArrayList
 
 class LocationApi(
-        activity: Activity,
-        private val shouldWeRequestPermissions: Boolean = true,
-        private val shouldWeRequestOptimization: Boolean = false,
-        private val isRealtime: Boolean = false,
-        private val callbacks: Callbacks
+    activity: Activity,
+    private val shouldWeRequestPermissions: Boolean = true,
+    private val shouldWeRequestOptimization: Boolean = false,
+    private val isRealtime: Boolean = false,
+    private val callbacks: Callbacks
 ) {
     private var activityWeakReference = WeakReference<Activity>(activity)
     private var locationCallback: LocationCallback? = null
@@ -88,7 +95,9 @@ class LocationApi(
             override fun onLocationAvailability(locationAvailability: LocationAvailability?) {
                 super.onLocationAvailability(locationAvailability)
                 if (locationAvailability?.isLocationAvailable == false) {
-                    callbacks.onFailed(LocationFailedEnum.HighPrecisionNA_TryAgainPreferablyWithInternet)
+                    callbacks.onFailed(
+                        LocationFailedEnum.HighPrecisionNA_TryAgainPreferablyWithInternet
+                    )
                     fusedLocationClient?.removeLocationUpdates(locationCallback)
                 }
             }
@@ -109,9 +118,9 @@ class LocationApi(
             var permissionGranted = true
             for (permission in permissions) {
                 if (ContextCompat.checkSelfPermission(
-                                activityWeakReference.get() as Activity,
-                                permission
-                        ) != PackageManager.PERMISSION_GRANTED
+                        activityWeakReference.get() as Activity,
+                        permission
+                    ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     permissionGranted = false
                     break
@@ -122,9 +131,9 @@ class LocationApi(
                 if (shouldWeRequestPermissions) {
                     val permissionsArgs = permissions.toTypedArray()
                     ActivityCompat.requestPermissions(
-                            activityWeakReference.get() as Activity,
-                            permissionsArgs,
-                            requestLocation
+                        activityWeakReference.get() as Activity,
+                        permissionsArgs,
+                        requestLocation
                     )
                 } else {
                     callbacks.onFailed(LocationFailedEnum.LocationPermissionNotGranted)
@@ -141,9 +150,9 @@ class LocationApi(
     }
 
     fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
 
         if (activityWeakReference.get() == null) {
@@ -186,18 +195,18 @@ class LocationApi(
 
         // check current location settings
         val task: Task<LocationSettingsResponse> =
-                (LocationServices.getSettingsClient(activityWeakReference.get() as Activity))
-                        .checkLocationSettings(
-                                (LocationSettingsRequest.Builder().addLocationRequest(
-                                        locationRequest
-                                )).build()
-                        )
+            (LocationServices.getSettingsClient(activityWeakReference.get() as Activity))
+                .checkLocationSettings(
+                    (LocationSettingsRequest.Builder().addLocationRequest(
+                        locationRequest
+                    )).build()
+                )
 
-        task.addOnSuccessListener { locationSettingsResponse ->
+        task.addOnSuccessListener { _ ->
             fusedLocationClient?.requestLocationUpdates(
-                    locationRequest,
-                    locationCallback,
-                    Looper.myLooper()
+                locationRequest,
+                locationCallback,
+                Looper.myLooper()
             )
         }
 
@@ -212,11 +221,12 @@ class LocationApi(
                     // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
                     if (shouldWeRequestOptimization) {
                         exception.startResolutionForResult(
-                                activityWeakReference.get() as Activity,
-                                requestCheckSettings
-                        )
+                            activityWeakReference.get() as Activity,
+                            requestCheckSettings)
                     } else {
-                        callbacks.onFailed(LocationFailedEnum.LocationOptimizationPermissionNotGranted)
+                        callbacks.onFailed(
+                            LocationFailedEnum.LocationOptimizationPermissionNotGranted
+                        )
                     }
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -235,14 +245,18 @@ class LocationApi(
                 getLocation()
             } else {
                 val locationManager =
-                        (activityWeakReference.get() as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                    (activityWeakReference.get() as Activity)
+                        .getSystemService(
+                            Context.LOCATION_SERVICE
+                        ) as LocationManager
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    callbacks.onFailed(LocationFailedEnum.HighPrecisionNA_TryAgainPreferablyWithInternet)
+                    callbacks.onFailed(
+                        LocationFailedEnum.HighPrecisionNA_TryAgainPreferablyWithInternet
+                    )
                 } else {
                     callbacks.onFailed(LocationFailedEnum.LocationOptimizationPermissionNotGranted)
                 }
             }
         }
     }
-
 }

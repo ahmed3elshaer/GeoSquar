@@ -40,7 +40,6 @@ class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenuesViewHolder>() {
         holder.bind(currentList[position])
     }
 
-
     class VenuesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val context = itemView.context
         fun bind(venue: Venue) = with(itemView) {
@@ -51,9 +50,7 @@ class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenuesViewHolder>() {
 
             text_name.text = venue.name
             text_address.text = venue.location.address
-
         }
-
     }
 
     class VenueDiffCallback : DiffUtil.ItemCallback<Venue>() {
@@ -64,7 +61,5 @@ class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenuesViewHolder>() {
         override fun areContentsTheSame(oldItem: Venue, newItem: Venue): Boolean {
             return oldItem == oldItem
         }
-
     }
-
 }

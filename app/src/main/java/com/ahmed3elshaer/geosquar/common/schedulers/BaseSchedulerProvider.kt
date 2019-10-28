@@ -9,9 +9,6 @@
 package com.ahmed3elshaer.geosquar.common.schedulers
 
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-
 
 interface BaseSchedulerProvider {
     fun io(): Scheduler

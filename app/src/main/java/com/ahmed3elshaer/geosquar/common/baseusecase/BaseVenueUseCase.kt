@@ -12,9 +12,7 @@ import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
-import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 
 abstract class BaseVenueUseCase(
     private val repository: Repository,

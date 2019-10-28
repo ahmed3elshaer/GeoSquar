@@ -14,10 +14,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import io.reactivex.ObservableTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-
 
 abstract class BaseViewModel<T>(private val schedulerProvider: BaseSchedulerProvider) :
     ViewModel() {
@@ -49,10 +47,7 @@ abstract class BaseViewModel<T>(private val schedulerProvider: BaseSchedulerProv
         state?.let {
             _viewState.value = Event(state)
         }
-
     }
 
     fun previousValue() = _viewState.value?.peekContent()
-
-
 }

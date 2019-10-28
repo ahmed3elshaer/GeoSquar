@@ -12,18 +12,15 @@ import com.ahmed3elshaer.geosquar.common.models.base.BaseData
 import com.ahmed3elshaer.geosquar.common.models.base.BaseResponse
 import com.squareup.moshi.Json
 
-
 data class VenuesResponse(
     @Json(name = "response")
     override val data: VenueData
 ) : BaseResponse() {
 
-
     data class VenuePage(
         @Json(name = "id")
         val id: String = ""
     )
-
 
     data class Sw(
         @Json(name = "lng")
@@ -31,7 +28,6 @@ data class VenuesResponse(
         @Json(name = "lat")
         val lat: Double = 0.0
     )
-
 
     data class Category(
         @Json(name = "pluralName")
@@ -48,7 +44,6 @@ data class VenuesResponse(
         val primary: Boolean = false
     )
 
-
     data class VenueItem(
         @Json(name = "venue")
         val venue: Venue,
@@ -56,12 +51,10 @@ data class VenuesResponse(
         val reasons: Reasons
     )
 
-
     data class Reasons(
         @Json(name = "count")
         val count: Int = 0
     )
-
 
     data class Group(
         @Json(name = "name")
@@ -71,7 +64,6 @@ data class VenuesResponse(
         @Json(name = "items")
         val venueItems: List<VenueItem>
     )
-
 
     data class VenueData(
         @Json(name = "totalResults")
@@ -90,14 +82,12 @@ data class VenuesResponse(
         val headerLocation: String = ""
     ) : BaseData
 
-
     data class Ne(
         @Json(name = "lng")
         val lng: Double = 0.0,
         @Json(name = "lat")
         val lat: Double = 0.0
     )
-
 
     data class LabeledLatLngsItem(
         @Json(name = "lng")
@@ -108,7 +98,6 @@ data class VenuesResponse(
         val lat: Double = 0.0
     )
 
-
     data class Icon(
         @Json(name = "prefix")
         val prefix: String = "",
@@ -116,14 +105,12 @@ data class VenuesResponse(
         val suffix: String = ""
     )
 
-
     data class SuggestedBounds(
         @Json(name = "sw")
         val sw: Sw = Sw(),
         @Json(name = "ne")
         val ne: Ne = Ne()
     )
-
 
     data class Location(
         @Json(name = "cc")
@@ -151,7 +138,4 @@ data class VenuesResponse(
         @Json(name = "lat")
         val lat: Double = 0.0
     )
-
 }
-
-

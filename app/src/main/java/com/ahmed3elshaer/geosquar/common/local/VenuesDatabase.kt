@@ -29,6 +29,5 @@ abstract class VenuesDatabase : RoomDatabase() {
             Room.databaseBuilder(context, VenuesDatabase::class.java, "VenueDatabase")
                 .fallbackToDestructiveMigration()
                 .build()
-
     }
 }

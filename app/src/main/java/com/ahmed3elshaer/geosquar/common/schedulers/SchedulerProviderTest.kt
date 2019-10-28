@@ -9,12 +9,10 @@
 package com.ahmed3elshaer.geosquar.common.schedulers
 
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class SchedulerProviderTest : BaseSchedulerProvider {
     override fun io(): Scheduler = Schedulers.trampoline()
 
     override fun ui(): Scheduler = Schedulers.trampoline()
-
 }
