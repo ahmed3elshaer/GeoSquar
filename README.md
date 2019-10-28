@@ -24,7 +24,8 @@ User should be able to switch between the two modes, default mode is
 - portrait and landscape.
 - using MVVM
 - using RxJava
-- Unit test(Under development).
+- Using Usecases (part of clean architecture)
+- Unit test.
 - Partly include comments.
 - Reactive code
 
@@ -54,7 +55,6 @@ User should be able to switch between the two modes, default mode is
 ``https://github.com/Ahmed3Elshaer/GeoSquar.git``
 
 ## Known Issues 
- - Still working on adding Unit tests to the app
  - Sometimes images won't load as the quota on FourSquare Api is very limited.
 
 
