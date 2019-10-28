@@ -8,10 +8,10 @@
 
 package com.ahmed3elshaer.geosquar.utils
 
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 object LiveDataTestUtil {
 

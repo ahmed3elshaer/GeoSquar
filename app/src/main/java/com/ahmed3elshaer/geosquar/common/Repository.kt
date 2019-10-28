@@ -9,9 +9,9 @@
 package com.ahmed3elshaer.geosquar.common
 
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.LOCATION_KEY
+import com.ahmed3elshaer.geosquar.common.local.VenuesDao
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
-import com.ahmed3elshaer.geosquar.common.local.VenuesDao
 import io.reactivex.Observable
 
 class Repository(
@@ -34,5 +34,4 @@ class Repository(
     }
 
     fun getVenuesCache(): Observable<List<Venue>> = venuesDao.allVenues()
-
 }

@@ -19,13 +19,16 @@ import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 
-class ExploreVenuesRealtimeUseCase(private val repository: Repository,private val schedulerProvider: BaseSchedulerProvider) :
-        BaseVenueUseCase(repository,schedulerProvider) {
+class ExploreVenuesRealtimeUseCase(
+    private val repository: Repository,
+    private val schedulerProvider: BaseSchedulerProvider
+) :
+        BaseVenueUseCase(repository, schedulerProvider) {
     private var firstLocation: String? = null
     private val realtimeVenuesBehaviour: BehaviorRelay<List<Venue>> = BehaviorRelay.create()
     @SuppressLint("CheckResult")
     operator fun invoke(
-            venuesRequest: VenuesRequest
+        venuesRequest: VenuesRequest
     ): Observable<List<Venue>> {
         if (firstLocation == null) {
             firstLocation = venuesRequest.coordinates
@@ -38,16 +41,11 @@ class ExploreVenuesRealtimeUseCase(private val repository: Repository,private va
                     if (toCoodinates().distanceTo(venuesRequest.coordinates.toCoodinates()) >= 0.5)
                         getVenues(venuesRequest, true)
                                 .subscribe(realtimeVenuesBehaviour)
-
                 } else
                     getVenues(venuesRequest, true)
                             .subscribeOn(schedulerProvider.io())
                             .subscribe(realtimeVenuesBehaviour)
-
             }
         return realtimeVenuesBehaviour
-
     }
-
-
 }

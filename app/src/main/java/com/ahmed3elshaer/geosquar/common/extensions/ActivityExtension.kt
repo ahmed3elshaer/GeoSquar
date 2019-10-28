@@ -12,7 +12,6 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
@@ -20,7 +19,6 @@ import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.MODE
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.REAL_TIME
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.SINGLE
 import org.koin.android.ext.android.inject
-
 
 fun Activity.isNetworkAvailable(): Boolean {
     val connectivityManager =
@@ -31,7 +29,7 @@ fun Activity.isNetworkAvailable(): Boolean {
         return when {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            //for other device how are able to connect with Ethernet
+            // for other device how are able to connect with Ethernet
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
@@ -43,7 +41,6 @@ fun Activity.isNetworkAvailable(): Boolean {
 
 fun Activity.isInFlightMode(): Boolean {
     return Settings.Global.getInt(this.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
-
 }
 
 fun Activity.isRealtime(): Boolean {

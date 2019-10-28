@@ -12,8 +12,8 @@ import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.ahmed3elshaer.geosquar.common.BaseViewModel
 import com.ahmed3elshaer.geosquar.common.Event
-import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
@@ -29,7 +29,6 @@ class HomeViewModel(
     init {
         post(HomeViewState())
     }
-
 
     fun checkForCachedVenues() {
         add {
@@ -49,8 +48,6 @@ class HomeViewModel(
             exploreRealtime(location)
         else
             exploreSingle(location)
-
-
     }
 
     private fun exploreSingle(location: Location) {
@@ -68,7 +65,9 @@ class HomeViewModel(
 
     private fun exploreRealtime(location: Location) {
         add {
-            exploreVenuesRealtimeUseCase(VenuesRequest("${location.latitude},${location.longitude}"))
+            exploreVenuesRealtimeUseCase(
+                VenuesRequest("${location.latitude},${location.longitude}")
+            )
                 .compose(applySchedulers())
                 .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
                 .subscribe({
@@ -78,5 +77,4 @@ class HomeViewModel(
                 })
         }
     }
-
 }

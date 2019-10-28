@@ -10,4 +10,7 @@ package com.ahmed3elshaer.geosquar.common.models
 
 import retrofit2.http.Query
 
-data class VenuesRequest(@Query("ll") val coordinates: String, @Query("radius") val radius: Long = 1000)
+data class VenuesRequest(
+    @Query("ll") val coordinates: String,
+    @Query("radius") val radius: Long = 1000
+)

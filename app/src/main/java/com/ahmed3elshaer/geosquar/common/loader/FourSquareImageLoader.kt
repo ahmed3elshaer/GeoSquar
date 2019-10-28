@@ -23,7 +23,6 @@ import java.io.InputStream
 import java.nio.charset.Charset
 import java.security.MessageDigest
 
-
 class FourSquareImageLoader(private val repository: Repository) :
         ModelLoader<Venue, InputStream> {
     class Factory(private val repository: Repository) :
@@ -39,17 +38,16 @@ class FourSquareImageLoader(private val repository: Repository) :
     }
 
     override fun buildLoadData(
-            model: Venue,
-            width: Int,
-            height: Int,
-            options: Options
+        model: Venue,
+        width: Int,
+        height: Int,
+        options: Options
     ): ModelLoader.LoadData<InputStream> {
         return ModelLoader.LoadData(
                 VenueKey(venue = model),
                 FourSquareImageFetcher(venue = model)
         )
     }
-
 
     override fun handles(venue: Venue): Boolean {
         return true
@@ -78,17 +76,17 @@ class FourSquareImageLoader(private val repository: Repository) :
             DataFetcher<InputStream> {
         private val disposable = CompositeDisposable()
         override fun loadData(
-                priority: Priority,
-                callback: DataFetcher.DataCallback<in InputStream>
+            priority: Priority,
+            callback: DataFetcher.DataCallback<in InputStream>
         ) {
             disposable.add(
                     repository.getVenueImages(venue.id)
                             .flatMap {
                                 it.data.photos.items.first().let {
-                                    (it.prefix + "${it.width}x${it.height}" + it.suffix).let { url ->
+                                    (it.prefix + "${it.width}x${it.height}" +
+                                            it.suffix).let { url ->
                                         repository.getPhotoStream(url)
                                     }
-
                                 }
                             }
                             .map { it.byteStream() }
@@ -98,10 +96,8 @@ class FourSquareImageLoader(private val repository: Repository) :
                                     }, {
                                 it.printStackTrace()
                                 callback.onLoadFailed(Exception(it))
-
                             })
             )
-
         }
 
         override fun getDataClass(): Class<InputStream> = InputStream::class.java
@@ -110,12 +106,10 @@ class FourSquareImageLoader(private val repository: Repository) :
             disposable.dispose()
         }
 
-
         override fun getDataSource(): DataSource = DataSource.REMOTE
 
         override fun cancel() {
             disposable.dispose()
         }
-
     }
 }

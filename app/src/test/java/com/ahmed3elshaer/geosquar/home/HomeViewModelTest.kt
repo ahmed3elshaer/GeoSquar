@@ -8,10 +8,8 @@
 
 package com.ahmed3elshaer.geosquar.home
 
-
 import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ahmed3elshaer.geosquar.utils.LiveDataTestUtil
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
@@ -19,6 +17,7 @@ import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProviderTest
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
+import com.ahmed3elshaer.geosquar.utils.LiveDataTestUtil
 import io.reactivex.Observable
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertFalse
@@ -28,7 +27,6 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-
 
 class HomeViewModelTest {
     @get:Rule
@@ -71,8 +69,6 @@ class HomeViewModelTest {
             Venue(location = location),
             Venue(location = location)
         )
-
-
     }
 
     @Test
@@ -89,7 +85,6 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, null)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues?.size, 6)
-
     }
 
     @Test
@@ -104,7 +99,6 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, throwable)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues, null)
-
     }
 
     @Test
@@ -119,7 +113,6 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, null)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues?.size, 3)
-
     }
 
     @Test
@@ -134,7 +127,6 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, throwable)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues, null)
-
     }
 
     @Test
@@ -148,7 +140,6 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, null)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues?.size, 3)
-
     }
 
     @Test
@@ -162,12 +153,10 @@ class HomeViewModelTest {
         assertFalse(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().isLoading)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().error, throwable)
         assertEquals(LiveDataTestUtil.getValue(viewModel.viewState).peekContent().venues, null)
-
     }
 
     private fun setupLocation() {
         `when`(location.latitude).thenReturn(lat)
         `when`(location.longitude).thenReturn(lng)
     }
-
 }
