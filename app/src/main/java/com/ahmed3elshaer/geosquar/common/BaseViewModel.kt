@@ -12,14 +12,15 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 
-abstract class BaseViewModel<T> : ViewModel() {
+abstract class BaseViewModel<T>(private val schedulerProvider: BaseSchedulerProvider) :
+    ViewModel() {
 
     val compositeDisposable = CompositeDisposable()
 
@@ -39,8 +40,8 @@ abstract class BaseViewModel<T> : ViewModel() {
 
     fun <X> applySchedulers(): ObservableTransformer<X, X> {
         return ObservableTransformer { up ->
-            up.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+            up.subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
         }
     }
 

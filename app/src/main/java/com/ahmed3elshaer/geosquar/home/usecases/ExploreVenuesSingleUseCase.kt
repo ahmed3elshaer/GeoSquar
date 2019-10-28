@@ -8,19 +8,22 @@
 
 package com.ahmed3elshaer.geosquar.home.usecases
 
-import android.location.Location
 import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.baseusecase.BaseVenueUseCase
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
-import com.ahmed3elshaer.geosquar.common.models.VenuesResponse
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
+import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import io.reactivex.Observable
 
-class ExploreVenuesSingleUseCase(private val repository: Repository) :
-        BaseVenueUseCase(repository) {
+class ExploreVenuesSingleUseCase(
+    private val repository: Repository,
+    schedulerProvider: BaseSchedulerProvider
+) :
+    BaseVenueUseCase(repository, schedulerProvider) {
 
     operator fun invoke(
-            venuesRequest: VenuesRequest
+        venuesRequest: VenuesRequest
     ): Observable<List<Venue>> {
         repository.cacheLocation(venuesRequest.coordinates)
         return getVenues(venuesRequest, true)

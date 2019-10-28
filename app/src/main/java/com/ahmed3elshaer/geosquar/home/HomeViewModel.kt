@@ -12,16 +12,18 @@ import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.ahmed3elshaer.geosquar.common.BaseViewModel
 import com.ahmed3elshaer.geosquar.common.Event
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
 
 class HomeViewModel(
-        private val exploreVenuesRealtimeUseCase: ExploreVenuesRealtimeUseCase,
-        private val exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,
-        private val exploreVenuesCacheUseCase: ExploreVenuesCacheUseCase
-) : BaseViewModel<HomeViewState>() {
+    schedulerProvider: BaseSchedulerProvider,
+    private val exploreVenuesRealtimeUseCase: ExploreVenuesRealtimeUseCase,
+    private val exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,
+    private val exploreVenuesCacheUseCase: ExploreVenuesCacheUseCase
+) : BaseViewModel<HomeViewState>(schedulerProvider) {
     override val _viewState = MutableLiveData<Event<HomeViewState>>()
 
     init {
@@ -32,13 +34,13 @@ class HomeViewModel(
     fun checkForCachedVenues() {
         add {
             exploreVenuesCacheUseCase()
-                    .compose(applySchedulers())
-                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
-                    .subscribe({
-                        post(previousValue()?.copy(isLoading = false, venues = it))
-                    }, {
-                        post(previousValue()?.copy(isLoading = false, error = it))
-                    })
+                .compose(applySchedulers())
+                .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                .subscribe({
+                    post(previousValue()?.copy(isLoading = false, venues = it))
+                }, {
+                    post(previousValue()?.copy(isLoading = false, error = it))
+                })
         }
     }
 
@@ -54,26 +56,26 @@ class HomeViewModel(
     private fun exploreSingle(location: Location) {
         add {
             exploreVenuesSingleUseCase(VenuesRequest("${location.latitude},${location.longitude}"))
-                    .compose(applySchedulers())
-                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
-                    .subscribe({
-                        post(previousValue()?.copy(isLoading = false, venues = it))
-                    }, {
-                        post(previousValue()?.copy(isLoading = false, error = it))
-                    })
+                .compose(applySchedulers())
+                .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                .subscribe({
+                    post(previousValue()?.copy(isLoading = false, venues = it))
+                }, {
+                    post(previousValue()?.copy(isLoading = false, error = it))
+                })
         }
     }
 
     private fun exploreRealtime(location: Location) {
         add {
             exploreVenuesRealtimeUseCase(VenuesRequest("${location.latitude},${location.longitude}"))
-                    .compose(applySchedulers())
-                    .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
-                    .subscribe({
-                        post(previousValue()?.copy(isLoading = false, venues = it))
-                    }, {
-                        post(previousValue()?.copy(isLoading = false, error = it))
-                    })
+                .compose(applySchedulers())
+                .doOnSubscribe { post(previousValue()?.copy(isLoading = true)) }
+                .subscribe({
+                    post(previousValue()?.copy(isLoading = false, venues = it))
+                }, {
+                    post(previousValue()?.copy(isLoading = false, error = it))
+                })
         }
     }
 

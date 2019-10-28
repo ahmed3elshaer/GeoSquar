@@ -10,6 +10,8 @@ package com.ahmed3elshaer.geosquar.common
 
 import android.content.Context
 import com.ahmed3elshaer.geosquar.common.local.VenuesDatabase
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
+import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import com.ahmed3elshaer.geosquar.home.HomeViewModel
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
@@ -43,13 +45,14 @@ val applicationModules = module {
         )
 
     }
+    single { SchedulerProvider() }
     factory { Repository(get(), get(), get()) }
 
     factory { ExploreVenuesCacheUseCase(get()) }
-    factory { ExploreVenuesRealtimeUseCase(get()) }
-    factory { ExploreVenuesSingleUseCase(get()) }
+    factory { ExploreVenuesRealtimeUseCase(get(),get()) }
+    factory { ExploreVenuesSingleUseCase(get(),get()) }
 
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get()) }
 }
 
 fun createOkHttpClient(): OkHttpClient {
@@ -77,3 +80,5 @@ inline fun <reified T> createWebService(
         .build()
     return retrofit.create(T::class.java)
 }
+
+
