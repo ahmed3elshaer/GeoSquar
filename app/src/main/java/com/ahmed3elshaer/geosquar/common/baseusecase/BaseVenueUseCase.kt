@@ -11,13 +11,17 @@ package com.ahmed3elshaer.geosquar.common.baseusecase
 import com.ahmed3elshaer.geosquar.common.Repository
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
+import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-abstract class BaseVenueUseCase(private val repository: Repository) {
+abstract class BaseVenueUseCase(
+    private val repository: Repository,
+    private val schedulerProvider: SchedulerProvider
+) {
     fun getVenues(venuesRequest: VenuesRequest, shouldCache: Boolean): Observable<List<Venue>> =
             repository.exploreVenues(venuesRequest)
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulerProvider.io())
                     .map { it.data.groups.first().venueItems.map { it.venue } }
                     .doOnNext {
                         if (shouldCache)
