@@ -15,12 +15,11 @@ import com.ahmed3elshaer.geosquar.common.extensions.distanceTo
 import com.ahmed3elshaer.geosquar.common.extensions.toCoodinates
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.ahmed3elshaer.geosquar.common.models.VenuesRequest
-import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
+import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 
-class ExploreVenuesRealtimeUseCase(private val repository: Repository,private val schedulerProvider: SchedulerProvider) :
+class ExploreVenuesRealtimeUseCase(private val repository: Repository,private val schedulerProvider: BaseSchedulerProvider) :
         BaseVenueUseCase(repository,schedulerProvider) {
     private var firstLocation: String? = null
     private val realtimeVenuesBehaviour: BehaviorRelay<List<Venue>> = BehaviorRelay.create()
