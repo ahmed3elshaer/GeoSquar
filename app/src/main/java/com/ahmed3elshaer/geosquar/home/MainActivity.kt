@@ -5,7 +5,6 @@
  *  * Last modified 10/26/19 3:37 AM
  *
  */
-
 package com.ahmed3elshaer.geosquar.home
 
 import android.content.Intent
@@ -14,11 +13,15 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed3elshaer.geosquar.R
 import com.ahmed3elshaer.geosquar.common.Event
+import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
+import com.ahmed3elshaer.geosquar.common.di.DaggerMainComponent
+import com.ahmed3elshaer.geosquar.common.di.MainModule
 import com.ahmed3elshaer.geosquar.common.extensions.changeMode
 import com.ahmed3elshaer.geosquar.common.extensions.hide
 import com.ahmed3elshaer.geosquar.common.extensions.isNetworkAvailable
@@ -28,17 +31,31 @@ import com.ahmed3elshaer.geosquar.common.location.RxLocationExt
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var homeViewModelFactory: HomeViewModelFactory
+
+    @Inject
+    lateinit var sharedPrefWrapper: SharedPrefWrapper
+
     private val rxLocation: RxLocationExt = RxLocationExt()
     private val compositeDisposable = CompositeDisposable()
-    private val viewModel: HomeViewModel by inject()
+
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
+    }
     private lateinit var adapter: VenuesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        DaggerMainComponent.builder().mainModule(MainModule(this.applicationContext)).build()
+            .inject(this)
+
         viewModel.viewState.observe(this, Observer {
             render(it)
         })
@@ -46,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         initVenuesList()
         initModeChange()
     }
+
     private fun render(event: Event<HomeViewState>) {
         event.getContentIfNotHandled()?.apply {
             renderLoading(isLoading)
@@ -64,9 +82,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initModeChange() {
-        switch_mode.isChecked = isRealtime()
+        switch_mode.isChecked = isRealtime(sharedPrefWrapper)
         switch_mode.setOnCheckedChangeListener { _, isChecked ->
-            changeMode(isChecked)
+            changeMode(isChecked, sharedPrefWrapper)
             getLocation()
         }
     }
@@ -95,13 +113,13 @@ class MainActivity : AppCompatActivity() {
         if (isNetworkAvailable()) {
             rxLocation.stopLocationUpdates()
             compositeDisposable.add(
-                    rxLocation.locations(this, isRealtime())
-                            .subscribe({ location ->
-                                viewModel.exploreVenues(location, isRealtime())
-                            },
-                                    { error: Throwable ->
-                                        renderError(error)
-                                    })
+                rxLocation.locations(this, isRealtime(sharedPrefWrapper))
+                    .subscribe({ location ->
+                        viewModel.exploreVenues(location, isRealtime(sharedPrefWrapper))
+                    },
+                        { error: Throwable ->
+                            renderError(error)
+                        })
             )
         } else {
             showMessage("Requesting Offline cache")
@@ -121,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         message?.let {
             val view = findViewById<View>(android.R.id.content) ?: return
             Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                    .show()
+                .show()
         }
     }
 

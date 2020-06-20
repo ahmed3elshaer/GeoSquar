@@ -18,7 +18,6 @@ import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.MODE
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.REAL_TIME
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.SINGLE
-import org.koin.android.ext.android.inject
 
 fun Activity.isNetworkAvailable(): Boolean {
     val connectivityManager =
@@ -43,13 +42,11 @@ fun Activity.isInFlightMode(): Boolean {
     return Settings.Global.getInt(this.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 }
 
-fun Activity.isRealtime(): Boolean {
-    val sharedPrefWrapper: SharedPrefWrapper by inject()
+fun Activity.isRealtime(sharedPrefWrapper: SharedPrefWrapper): Boolean {
     return sharedPrefWrapper.getString(MODE, defValue = REAL_TIME) == REAL_TIME
 }
 
-fun Activity.changeMode(isRealtime: Boolean) {
-    val sharedPrefWrapper: SharedPrefWrapper by inject()
+fun Activity.changeMode(isRealtime: Boolean, sharedPrefWrapper: SharedPrefWrapper) {
     if (isRealtime)
         sharedPrefWrapper.saveString(MODE, REAL_TIME)
     else
