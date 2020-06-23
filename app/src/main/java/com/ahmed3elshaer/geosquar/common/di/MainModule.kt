@@ -34,7 +34,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
-class MainModule(val context: Context) {
+class MainModule() {
 
     val url = "https://api.foursquare.com/v2/"
 
@@ -59,7 +59,7 @@ class MainModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun provideSharedPref(): SharedPreferences {
+    fun provideSharedPref(context: Context): SharedPreferences {
         return context.applicationContext.getSharedPreferences("GeoSquare", Context.MODE_PRIVATE)
     }
 
@@ -71,7 +71,7 @@ class MainModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun provideVenuesDao(): VenuesDao {
+    fun provideVenuesDao(context: Context): VenuesDao {
         return VenuesDatabase.getInstance(context).moviesDao()
     }
 
@@ -97,38 +97,6 @@ class MainModule(val context: Context) {
     }
 
     @Provides
-    fun provideSchedulerProvider(): SchedulerProvider {
-        return SchedulerProvider()
-    }
+    fun provideScheduler() = SchedulerProvider()
 
-    @Provides
-    fun provideVenuesCacheUseCase(repository: Repository): ExploreVenuesCacheUseCase {
-        return ExploreVenuesCacheUseCase(repository)
-    }
-
-    @Provides
-    fun provideVenuesRealtimeUseCase(
-        repository: Repository,
-        schedulerProvider: SchedulerProvider
-    ): ExploreVenuesRealtimeUseCase {
-        return ExploreVenuesRealtimeUseCase(repository, schedulerProvider)
-    }
-
-    @Provides
-    fun provideVenuesSingleUseCase(
-        repository: Repository,
-        schedulerProvider: SchedulerProvider
-    ): ExploreVenuesSingleUseCase {
-        return ExploreVenuesSingleUseCase(repository, schedulerProvider)
-    }
-
-    @Provides
-    fun provideHomeViewModelFactory(
-        schedulerProvider: SchedulerProvider,
-        realtimeUseCase: ExploreVenuesRealtimeUseCase,
-        singleUseCase: ExploreVenuesSingleUseCase,
-        cacheUseCase: ExploreVenuesCacheUseCase
-    ): HomeViewModelFactory {
-        return HomeViewModelFactory(schedulerProvider, cacheUseCase, realtimeUseCase, singleUseCase)
-    }
 }

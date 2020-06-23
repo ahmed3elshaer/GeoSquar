@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed3elshaer.geosquar.R
+import com.ahmed3elshaer.geosquar.common.Application
 import com.ahmed3elshaer.geosquar.common.Event
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
 import com.ahmed3elshaer.geosquar.common.di.DaggerMainComponent
+import com.ahmed3elshaer.geosquar.common.di.DaggerVenuesComponent
 import com.ahmed3elshaer.geosquar.common.di.MainModule
 import com.ahmed3elshaer.geosquar.common.extensions.changeMode
 import com.ahmed3elshaer.geosquar.common.extensions.hide
@@ -52,10 +54,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        DaggerMainComponent.builder().mainModule(MainModule(this.applicationContext)).build()
+        DaggerVenuesComponent.builder()
+            .mainComponent((application as Application).getMainComponent()).build()
             .inject(this)
-
         viewModel.viewState.observe(this, Observer {
             render(it)
         })

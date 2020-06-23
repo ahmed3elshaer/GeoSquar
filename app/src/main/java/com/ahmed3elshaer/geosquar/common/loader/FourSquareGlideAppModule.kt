@@ -27,7 +27,9 @@ class FourSquareGlideAppModule : AppGlideModule() {
     lateinit var repository: Repository
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        DaggerMainComponent.builder().mainModule(MainModule(context.applicationContext)).build()
+        DaggerMainComponent.builder()
+            .applicationContext(context)
+            .build()
             .inject(this)
 
         registry.prepend(
