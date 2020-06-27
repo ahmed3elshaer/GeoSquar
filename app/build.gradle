@@ -12,7 +12,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin:'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
@@ -62,15 +62,6 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:1.1.1'
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
 
-    //koin
-    def koin_version = '1.0.2'
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-    // Koin Android Scope feature
-    implementation "org.koin:koin-android-scope:$koin_version"
-    // Koin Android ViewModel feature
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-
     //rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
@@ -94,6 +85,11 @@ dependencies {
     //location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.9.0'
+
+    //Dagger
+    def dagger_version = '2.28'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
 
     // Dependencies for local unit tests
