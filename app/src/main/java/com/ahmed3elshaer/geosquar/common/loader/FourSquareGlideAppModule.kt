@@ -22,14 +22,10 @@ import javax.inject.Inject
 
 @GlideModule
 class FourSquareGlideAppModule : AppGlideModule() {
-
     @Inject
     lateinit var repository: Repository
-
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        DaggerMainComponent.builder().mainModule(MainModule(context.applicationContext)).build()
-            .inject(this)
-
+        DaggerMainComponent.builder().mainModule(MainModule(context)).build().poke(this)
         registry.prepend(
             Venue::class.java,
             InputStream::class.java,

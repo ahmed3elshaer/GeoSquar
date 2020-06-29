@@ -21,7 +21,7 @@ import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper.Companion.SINGLE
 
 fun Activity.isNetworkAvailable(): Boolean {
     val connectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val nw = connectivityManager.activeNetwork ?: return false
         val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false

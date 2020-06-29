@@ -5,6 +5,7 @@
  *  * Last modified 10/26/19 3:37 AM
  *
  */
+
 package com.ahmed3elshaer.geosquar.home
 
 import android.content.Intent
@@ -13,7 +14,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -22,40 +22,26 @@ import com.ahmed3elshaer.geosquar.common.Event
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
 import com.ahmed3elshaer.geosquar.common.di.DaggerMainComponent
 import com.ahmed3elshaer.geosquar.common.di.MainModule
-import com.ahmed3elshaer.geosquar.common.extensions.changeMode
-import com.ahmed3elshaer.geosquar.common.extensions.hide
-import com.ahmed3elshaer.geosquar.common.extensions.isNetworkAvailable
-import com.ahmed3elshaer.geosquar.common.extensions.isRealtime
-import com.ahmed3elshaer.geosquar.common.extensions.show
+import com.ahmed3elshaer.geosquar.common.extensions.*
 import com.ahmed3elshaer.geosquar.common.location.RxLocationExt
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var homeViewModelFactory: HomeViewModelFactory
-
-    @Inject
-    lateinit var sharedPrefWrapper: SharedPrefWrapper
-
     private val rxLocation: RxLocationExt = RxLocationExt()
     private val compositeDisposable = CompositeDisposable()
-
-    private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
-    }
+    @Inject
+    lateinit var viewModel: HomeViewModel
+    @Inject
+    lateinit var sharedPrefWrapper: SharedPrefWrapper
     private lateinit var adapter: VenuesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        DaggerMainComponent.builder().mainModule(MainModule(this.applicationContext)).build()
-            .inject(this)
-
+        DaggerMainComponent.builder().mainModule(MainModule(this)).build().poke(this)
         viewModel.viewState.observe(this, Observer {
             render(it)
         })
