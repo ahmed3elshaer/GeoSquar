@@ -10,12 +10,14 @@ package com.ahmed3elshaer.geosquar.common.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.ahmed3elshaer.geosquar.common.*
+import com.ahmed3elshaer.geosquar.common.AuthInterceptor
+import com.ahmed3elshaer.geosquar.common.FourSquareApi
+import com.ahmed3elshaer.geosquar.common.Repository
+import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
 import com.ahmed3elshaer.geosquar.common.local.VenuesDao
 import com.ahmed3elshaer.geosquar.common.local.VenuesDatabase
 import com.ahmed3elshaer.geosquar.common.schedulers.BaseSchedulerProvider
 import com.ahmed3elshaer.geosquar.common.schedulers.SchedulerProvider
-import com.ahmed3elshaer.geosquar.home.HomeViewModel
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
@@ -23,6 +25,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -32,7 +37,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class MainModule(private val context: Context) {
+@InstallIn(ApplicationComponent::class)
+class MainModule {
 
     @Singleton
     @Provides
@@ -57,7 +63,7 @@ class MainModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideSharedPreference(): SharedPreferences =
+    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences("GeoSquare", Context.MODE_PRIVATE)
 
     @Singleton
@@ -67,7 +73,8 @@ class MainModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideVenuesDatabase(): VenuesDao = VenuesDatabase.getInstance(context).moviesDao()
+    fun provideVenuesDatabase(@ApplicationContext context: Context): VenuesDao =
+        VenuesDatabase.getInstance(context).moviesDao()
 
     @Singleton
     @Provides
@@ -112,19 +119,4 @@ class MainModule(private val context: Context) {
         repository: Repository,
         schedulerProvider: BaseSchedulerProvider
     ): ExploreVenuesSingleUseCase = ExploreVenuesSingleUseCase(repository, schedulerProvider)
-
-
-    @Provides
-    fun provideHomeViewModel(
-        schedulerProvider: BaseSchedulerProvider,
-        exploreVenuesRealtimeUseCase: ExploreVenuesRealtimeUseCase,
-        exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,
-        exploreVenuesCacheUseCase: ExploreVenuesCacheUseCase
-    ): HomeViewModel = HomeViewModel(
-        schedulerProvider,
-        exploreVenuesRealtimeUseCase,
-        exploreVenuesSingleUseCase,
-        exploreVenuesCacheUseCase
-    )
-
 }

@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,28 +21,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ahmed3elshaer.geosquar.R
 import com.ahmed3elshaer.geosquar.common.Event
 import com.ahmed3elshaer.geosquar.common.SharedPrefWrapper
-import com.ahmed3elshaer.geosquar.common.di.DaggerMainComponent
-import com.ahmed3elshaer.geosquar.common.di.MainModule
 import com.ahmed3elshaer.geosquar.common.extensions.*
 import com.ahmed3elshaer.geosquar.common.location.RxLocationExt
 import com.ahmed3elshaer.geosquar.common.models.Venue
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val rxLocation: RxLocationExt = RxLocationExt()
     private val compositeDisposable = CompositeDisposable()
-    @Inject
-    lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels()
+
     @Inject
     lateinit var sharedPrefWrapper: SharedPrefWrapper
     private lateinit var adapter: VenuesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        DaggerMainComponent.builder().mainModule(MainModule(this)).build().poke(this)
         viewModel.viewState.observe(this, Observer {
             render(it)
         })

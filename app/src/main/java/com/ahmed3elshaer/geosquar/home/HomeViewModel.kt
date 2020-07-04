@@ -9,6 +9,7 @@
 package com.ahmed3elshaer.geosquar.home
 
 import android.location.Location
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.ahmed3elshaer.geosquar.common.BaseViewModel
 import com.ahmed3elshaer.geosquar.common.Event
@@ -18,7 +19,7 @@ import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesCacheUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesRealtimeUseCase
 import com.ahmed3elshaer.geosquar.home.usecases.ExploreVenuesSingleUseCase
 
-class HomeViewModel(
+class HomeViewModel @ViewModelInject constructor(
     schedulerProvider: BaseSchedulerProvider,
     private val exploreVenuesRealtimeUseCase: ExploreVenuesRealtimeUseCase,
     private val exploreVenuesSingleUseCase: ExploreVenuesSingleUseCase,

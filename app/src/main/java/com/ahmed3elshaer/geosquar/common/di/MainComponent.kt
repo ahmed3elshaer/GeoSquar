@@ -8,15 +8,9 @@
 
 package com.ahmed3elshaer.geosquar.common.di
 
-import com.ahmed3elshaer.geosquar.common.loader.FourSquareGlideAppModule
-import com.ahmed3elshaer.geosquar.home.MainActivity
-import com.bumptech.glide.module.AppGlideModule
-import dagger.Component
-import javax.inject.Singleton
-
-@Singleton
-@Component(modules = [MainModule::class])
-interface MainComponent {
-    fun poke(mainActivity: MainActivity)
-    fun poke(FourSquareGlideAppModule: FourSquareGlideAppModule)
-}
+//@Singleton
+//@Component(modules = [MainModule::class])
+//interface MainComponent {
+//    fun poke(mainActivity: MainActivity)
+//    fun poke(FourSquareGlideAppModule: FourSquareGlideAppModule)
+//}
